@@ -1,0 +1,26 @@
+
+											<script>
+												document.addEventListener('DOMContentLoaded', function() {
+  const excludedDomains = ['github.com', 'gitlab.com', 'stackoverflow.com', 'youtube.com', 'solveforum.com', 'imgurl.com'];
+  const allLinks = document.querySelectorAll('a'); // Select all <a> elements on the page
+
+  const currentHostname = location.hostname;
+
+  for (let i = 0; i < allLinks.length; i++) {
+    const link = allLinks[i];
+    const linkHref = link.getAttribute('href');
+    const linkText = link.textContent;
+
+    if (linkHref && (linkHref.startsWith('http://') || linkHref.startsWith('https://'))) {
+      const linkHostname = linkHref.split('/')[2];
+      const isExcluded = excludedDomains.some(domain => linkHostname.includes(domain) || linkHostname === currentHostname);
+
+      if (!isExcluded) {
+        const newTextNode = document.createTextNode(linkText);
+        link.parentNode.replaceChild(newTextNode, link);
+      }
+    }
+  }
+});
+
+</script>
